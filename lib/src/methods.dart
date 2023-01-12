@@ -440,7 +440,7 @@ class Stringer {
     @required List<String> strings,
     @required String invoker,
   }){
-    blog('blogStrings : START --- : $invoker');
+    _blog('blogStrings : START --- : $invoker');
     if (Mapper.checkCanLoopList(strings) == true){
 
 
@@ -452,16 +452,16 @@ class Stringer {
         );
 
 
-        blog('$_index : [ ${strings[i]} ]');
+        _blog('$_index : [ ${strings[i]} ]');
 
       }
 
     }
     else {
-      blog('blogStrings : strings can not be blogged');
+      _blog('blogStrings : strings can not be blogged');
     }
 
-    blog('blogStrings : END --- : $invoker');
+    _blog('blogStrings : END --- : $invoker');
 
   }
   // --------------------
@@ -472,7 +472,7 @@ class Stringer {
     String list1Name,
     String list2Name,
   }){
-    blog('blogStringsListsDifferences : START');
+    _blog('blogStringsListsDifferences : START');
 
     /// ASSING LISTS NAMES
     final String _list1Name = list1Name ?? 'strings1';
@@ -482,7 +482,7 @@ class Stringer {
     final List<String> _blogLog = <String>[];
     void blogAndAddToLog(String log){
       _blogLog.add(log);
-      blog(log);
+      _blog(log);
     }
 
     /// 1 IS NULL
@@ -608,7 +608,7 @@ class Stringer {
     }
 
 
-    blog('blogStringsListsDifferences : END');
+    _blog('blogStringsListsDifferences : END');
 
     return _blogLog;
   }
@@ -718,28 +718,16 @@ class Stringer {
 
     return _output;
   }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static void _blog(dynamic msg){
+
+    assert((){
+      // ignore: avoid_print
+      print(msg?.toString());
+      return true;
+    }(), '_');
+
+  }
   // -----------------------------------------------------------------------------
 }
-
-// --------------------
-/// TESTED : WORKS PERFECT
-void blog(dynamic msg, {String invoker}){
-
-  assert((){
-    // log(msg.toString());
-    // ignore: avoid_print
-    print(msg?.toString());
-    return true;
-  }(), '_');
-
-  /// NOUR IDEA
-  /*
-    extension Printer on dynamic {
-      void log() {
-        return dev.log(toString());
-      }
-    }
-     */
-
-}
-// --------------------
