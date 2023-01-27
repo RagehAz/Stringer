@@ -1,3 +1,4 @@
+// ignore_for_file: noop_primitive_operations
 part of stringer;
 
 /// => TAMAM
@@ -26,7 +27,7 @@ class Stringer {
   /// CHECKERS
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static bool checkStringsContainString({
     @required List<String> strings,
     @required String string,
@@ -44,7 +45,7 @@ class Stringer {
   /// MODIFIERS
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static List<String> addStringToListIfDoesNotContainIt({
     @required List<String> strings,
     @required String stringToAdd,
@@ -56,19 +57,23 @@ class Stringer {
       _output = <String>[...strings];
     }
 
-    final bool _containsIt = checkStringsContainString(
-      strings: _output,
-      string: stringToAdd,
-    );
+    if (stringToAdd != null){
 
-    if (_containsIt == false) {
-      _output.add(stringToAdd);
+      final bool _containsIt = checkStringsContainString(
+        strings: _output,
+        string: stringToAdd,
+      );
+
+      if (_containsIt == false) {
+        _output.add(stringToAdd);
+      }
+
     }
 
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static List<String> addStringsToStringsIfDoNotContainThem({
     @required List<String> listToTake,
     @required List<String> listToAdd,
@@ -96,34 +101,36 @@ class Stringer {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static List<String> addOrRemoveStringToStrings({
     @required List<String> strings,
     @required String string,
   }){
 
-    List<String> _output = <String>[];
+    final List<String> _output = <String>[...?strings];
 
-    if (Mapper.checkCanLoopList(strings) == true){
-      _output = <String>[...strings];
-    }
+    if (string != null){
 
-    final bool _containsIt = checkStringsContainString(
-        strings: _output,
-        string: string
-    );
+      final bool _containsIt = checkStringsContainString(
+          strings: _output,
+          string: string,
+      );
 
-    if (_containsIt == true){
-      _output.remove(string);
-    }
-    else {
-      _output.add(string);
+      if (_containsIt == true) {
+        _output.removeWhere((element) => element == string);
+      }
+
+      else {
+        _output.add(string);
+      }
+
+
     }
 
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static List<String> removeStringsFromStrings({
     @required List<String> removeFrom,
     @required List<String> removeThis,
@@ -154,49 +161,46 @@ class Stringer {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static List<String> putStringInStringsIfAbsent({
     @required List<String> strings,
     @required String string,
   }){
+    final List<String> _output = <String>[...?strings];
 
-    List<String> _output = <String>[];
+    if (string != null) {
+      final bool _contains = checkStringsContainString(
+        strings: _output,
+        string: string,
+      );
 
-    if (Mapper.checkCanLoopList(strings) == true){
-
-      _output = <String>[...strings];
-
+      if (_contains == false) {
+        _output.add(string);
+      }
     }
-
-    final bool _contains = checkStringsContainString(
-      strings: _output,
-      string: string,
-    );
-
-    if (_contains == false){
-      _output.add(string);
-    }
-
 
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static List<String> cleanDuplicateStrings({
     @required List<String> strings,
-  }){
+  }) {
     final List<String> _output = <String>[];
 
-    if (Mapper.checkCanLoopList(strings) == true){
+    if (Mapper.checkCanLoopList(strings) == true) {
+      for (final String string in strings) {
 
-      for (final String string in strings){
+        final bool _contains = checkStringsContainString(
+          strings: _output,
+          string: string,
+        );
 
-        if (_output.contains(string) == false){
+        if (_contains == false) {
           _output.add(string);
         }
 
       }
-
     }
 
     return _output;
@@ -309,9 +313,9 @@ class Stringer {
       _trigram.addAll(_splitWords);
 
       /// 2 - start trigramming after clearing spaces
-      String _withoutSpaces = TextMod.removeSpacesFromAString(_lowerCased);
+      String _withoutSpaces = _TextMod.removeSpacesFromAString(_lowerCased);
       if (removeSpaces == true){
-        _withoutSpaces = TextMod.removeSpacesFromAString(_lowerCased);
+        _withoutSpaces = _TextMod.removeSpacesFromAString(_lowerCased);
       }
       else {
         _withoutSpaces = _lowerCased;
@@ -435,7 +439,7 @@ class Stringer {
   /// BLOGGING
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// MANUALLY TESTED : WORKS PERFECT
   static void blogStrings({
     @required List<String> strings,
     @required String invoker,
@@ -465,7 +469,7 @@ class Stringer {
 
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// MANUALLY TESTED : WORKS PERFECT
   static List<String> blogStringsListsDifferences({
     @required List<String> strings1,
     @required List<String> strings2,
@@ -704,7 +708,7 @@ class Stringer {
 
         /// REMOVE HASH
         if (removeHash == true){
-          _output.add(TextMod.removeTextBeforeFirstSpecialCharacter(_match, '#'));
+          _output.add(_TextMod.removeTextBeforeFirstSpecialCharacter(_match, '#'));
         }
 
         /// KEEP HASH
@@ -730,4 +734,96 @@ class Stringer {
 
   }
   // -----------------------------------------------------------------------------
+}
+
+class _TextMod {
+  // -----------------------------------------------------------------------------
+
+  const _TextMod();
+
+  // -----------------------------------------------------------------------------
+  /// TESTED : WORKS PERFECT
+  static String removeSpacesFromAString(String string) {
+    String _output5;
+
+    if (string != null) {
+      /// solution 1,, won't work, not tested
+      // string.replaceAll(new RegExp(r"\s+\b|\b\s"), "");
+      /// solution 2
+      // string.replaceAll(new RegExp(r"\s+"), "");
+      /// solution 3
+      // string.replaceAll(' ', '');
+      /// solution 4
+      // string.split(" ").join("");
+      /// solution 5
+      final String _output = string.toLowerCase().replaceAll(' ', '');
+
+      /// solution 6
+      /// String replaceWhitespacesUsingRegex(String s, String replace) {
+      ///   if (s == null) {
+      ///     return null;
+      ///   }
+      ///
+      ///   // This pattern means "at least one space, or more"
+      ///   // \\s : space
+      ///   // +   : one or more
+      ///   final pattern = RegExp('\\s+');
+      ///   return s.replaceAll(pattern, replace);
+      ///
+      /// ---> I'm just going to shortcut the above method here below
+      // string?.replaceAll(new RegExp('\\s+'),'');
+      final String _output2 = _output?.replaceAll('‎', '');
+      final String _output3 = _output2?.replaceAll('‏', '');
+      final String _output4 = _output3?.replaceAll('‎ ', '');
+      _output5 = _output4?.replaceAll(' ‏', '');
+    }
+
+    return _output5;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static String removeTextBeforeFirstSpecialCharacter(String verse, String specialCharacter) {
+    String _result = verse;
+
+    if (verse != null && verse != ''){
+
+      final bool _verseContainsChar = stringContainsSubString(
+        string: verse,
+        subString: specialCharacter,
+      );
+
+      if (_verseContainsChar == true) {
+        final int _position = verse?.indexOf(specialCharacter);
+        _result = verse == null ?
+        null
+            :
+        (_position != -1) ?
+        verse.substring(_position + 1, verse.length)
+            :
+        verse;
+      }
+
+    }
+
+    return _result;
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
+  static bool stringContainsSubString({
+    @required String string,
+    @required String subString,
+  }) {
+    bool _itContainsIt = false;
+
+    if (string != null && subString != null) {
+      if (
+      string.toLowerCase().contains(subString?.toLowerCase())
+      ) {
+        _itContainsIt = true;
+      }
+    }
+
+    return _itContainsIt;
+  }
+  // --------------------
 }

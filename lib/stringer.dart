@@ -3,7 +3,6 @@ library stringer;
 import 'package:flutter/material.dart';
 import 'package:mapper/mapper.dart';
 import 'package:numeric/numeric.dart';
-import 'src/text_mod.dart';
 // -----------------------------------------------------------------------------
 part 'src/methods.dart';
 // -----------------------------------------------------------------------------
