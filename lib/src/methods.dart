@@ -206,7 +206,7 @@ class Stringer {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static List<String> cleanListNullItems(List<String> strings){
     final List<String> _output = <String>[];
 
@@ -225,8 +225,8 @@ class Stringer {
     return _output;
   }
   // --------------------
-  /// TESTED : WORKS PERFECT
-  static String nullifyNullString(dynamic input){
+  /// AI TESTED
+  static dynamic nullifyNullString(dynamic input){
 
     if (input == null){
       return null;
@@ -234,11 +234,12 @@ class Stringer {
     else if (input == 'null'){
       return null;
     }
-    else if (input == ['null']){
+    else if (input == ['null'] || input.toString() == '[null]'){
       return null;
     }
     else {
       return input;
+
     }
 
   }
@@ -247,20 +248,29 @@ class Stringer {
   /// SORTING STRINGS
 
   // --------------------
-  /*
+  /// AI TESTED
   static List<String> sortAlphabetically(List<String> inputList) {
-    inputList.sort();
-    return inputList;
-  }
-   */
-  // --------------------
-  /// TESTED : WORKS PERFECT
-  static List<String> sortAlphabetically2(List<String> inputList) {
     List<String> _output = <String>[];
 
     if (Mapper.checkCanLoopList(inputList) == true) {
-      inputList.sort((String a, String b) => a.compareTo(b));
+      inputList.sort((String a, String b){
+
+        final String _a = a?.toLowerCase();
+        final String _b = b?.toLowerCase();
+
+        if (_a == null){
+          return 1;
+        }
+        else if (_b == null){
+          return -1;
+        }
+        else {
+          return _a.compareTo(_b);
+        }
+      });
+
       _output = <String>[...inputList];
+
     }
 
     return _output;
@@ -270,23 +280,32 @@ class Stringer {
   /// TRANSFORMERS
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static List<String> getStringsFromDynamics({
     @required List<dynamic> dynamics,
   }) {
     final List<String> _strings = <String>[];
 
-    if (Mapper.checkCanLoopList(dynamics)) {
+    if (Mapper.checkCanLoopList(dynamics) == true) {
       for (final dynamic thing in dynamics) {
+
         if (thing is String == true) {
           _strings.add(thing);
-        } else {
+        }
+
+        else if (thing is List){
+          final List<String> _sub = getStringsFromDynamics(
+            dynamics: thing,
+          );
+          _strings.addAll(_sub);
+        }
+
+        else {
           _strings.add(thing.toString());
         }
+
       }
     }
-
-    // blog('getStringsFromDynamics : _strings : $_strings');
 
     return _strings;
   }
@@ -295,7 +314,7 @@ class Stringer {
   /// TRIGRAM
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED : WORKS PERFECT
   static List<String> createTrigram({
     @required String input,
     bool removeSpaces = false,
@@ -402,7 +421,7 @@ class Stringer {
   /// GENERATORS
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static String generateStringFromStrings({
     @required List<String> strings,
     String stringsSeparator = ', ',
@@ -530,8 +549,8 @@ class Stringer {
           blogAndAddToLog('A - Lists are NOT identical');
 
           final bool _sortedAreIdentical = Mapper.checkListsAreIdentical(
-            list1: Stringer.sortAlphabetically2(strings1),
-            list2: Stringer.sortAlphabetically2(strings2),
+            list1: Stringer.sortAlphabetically(strings1),
+            list2: Stringer.sortAlphabetically(strings2),
           );
 
           /// LISTS JUST NEEDED SORTING
@@ -621,7 +640,7 @@ class Stringer {
   /// GETTERS
 
   // --------------------
-  /// TESTED : WORKS PERFECT
+  /// AI TESTED
   static List<String> getAddedStrings({
     @required List<String> oldStrings,
     @required List<String> newStrings,

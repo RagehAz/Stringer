@@ -442,43 +442,354 @@ void main(){
   /// cleanListNullItems
 
   // --------------------
-  ///
+  group('cleanListNullItems', () {
+
+    test('removes null items from list', () {
+      final input = ['a', 'b', null, 'c', 'null', null];
+      final expectedOutput = ['a', 'b', 'c'];
+      final output = Stringer.cleanListNullItems(input);
+      expect(output, expectedOutput);
+    });
+
+    test('removes "null" string items from list', () {
+      final input = ['a', 'b', 'null', 'c', 'null', 'd'];
+      final expectedOutput = ['a', 'b', 'c', 'd'];
+      final output = Stringer.cleanListNullItems(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns empty list if input is null', () {
+      const input = null;
+      final expectedOutput = <String>[];
+      final output = Stringer.cleanListNullItems(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns original list if no null items present', () {
+      final input = ['a', 'b', 'c'];
+      final expectedOutput = ['a', 'b', 'c'];
+      final output = Stringer.cleanListNullItems(input);
+      expect(output, expectedOutput);
+    });
+
+  });
   // -----------------------------------------------------------------------------
 
   /// nullifyNullString
 
   // --------------------
-  ///
+  group('nullifyNullString', () {
+
+    test('returns null for null input', () {
+      const input = null;
+      const expectedOutput = null;
+      final output = Stringer.nullifyNullString(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns null for string "null" input', () {
+      const input = 'null';
+      const expectedOutput = null;
+      final output = Stringer.nullifyNullString(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns null for list ["null"] input', () {
+      final input = ['null'];
+      const expectedOutput = null;
+      final output = Stringer.nullifyNullString(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns original input for non-null input', () {
+      const input = 'hello';
+      const expectedOutput = 'hello';
+      final output = Stringer.nullifyNullString(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns original input for non-null list', () {
+      final input = ['hello', 'world'];
+      // final expectedOutput = ['hello', 'world'];
+      final dynamic output = Stringer.nullifyNullString(input);
+      expect(output, ['hello', 'world']);
+    });
+
+  });
   // -----------------------------------------------------------------------------
 
-  /// sortAlphabetically2
+  /// sortAlphabetically
 
   // --------------------
-  ///
+  group('sortAlphabetically', () {
+
+    test('sorts a list of strings alphabetically', () {
+      final input = ['c', 'b', 'a', 'd'];
+      final expectedOutput = ['a', 'b', 'c', 'd'];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns empty list if input is null', () {
+      const input = null;
+      final expectedOutput = <String>[];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns original list if input is already sorted', () {
+      final input = ['a', 'b', 'c'];
+      final expectedOutput = ['a', 'b', 'c'];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns original list if input contains only one item', () {
+      final input = ['a'];
+      final expectedOutput = ['a'];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, expectedOutput);
+    });
+
+    test('sorts a list of strings alphabetically', () {
+      final input = ['c', 'b', 'a', 'd'];
+      final expectedOutput = ['a', 'b', 'c', 'd'];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns empty list if input is null', () {
+      const input = null;
+      final expectedOutput = <String>[];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns empty list if input is empty', () {
+      final input = <String>[];
+      final expectedOutput = <String>[];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns original list if input is already sorted', () {
+      final input = ['a', 'b', 'c'];
+      final expectedOutput = ['a', 'b', 'c'];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, expectedOutput);
+    });
+
+    test('returns original list if input contains only one item', () {
+      final input = ['a'];
+      final expectedOutput = ['a'];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, expectedOutput);
+    });
+
+    test('sorts a list of strings containing special characters and numbers', () {
+      final input = ['#', r'$', '3', '2', '1'];
+      final expectedOutput = ['#', r'$', '1', '2', '3'];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, expectedOutput);
+    });
+
+    test('sorts a list of mixed case strings alphabetically', () {
+      final input = ['Apple', 'banana', 'Carrot', 'Dates', null];
+      final expectedOutput = ['Apple', 'banana', 'Carrot', 'Dates', null];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, expectedOutput);
+    });
+
+    test('sorts a list of mixed case strings alphabetically2', () {
+      final input = ['Apple', null, 'banana', 'Carrot', 'Dates',];
+      final expectedOutput = ['Apple', 'banana', 'Carrot', 'Dates', null];
+      final output = Stringer.sortAlphabetically(input);
+      expect(output, expectedOutput);
+    });
+
+  });
   // -----------------------------------------------------------------------------
 
   /// getStringsFromDynamics
 
   // --------------------
-  ///
+  group('getStringsFromDynamics', () {
+
+    test('should return list of strings from list of dynamics', () {
+      final dynamics = [1, 'hello', true, 2.5];
+      final expected = ['1', 'hello', 'true', '2.5'];
+      final result = Stringer.getStringsFromDynamics(dynamics: dynamics);
+      expect(result, expected);
+    });
+
+    test('should return empty list if input list is null', () {
+      const dynamics = null;
+      final expected = <String>[];
+      final result = Stringer.getStringsFromDynamics(dynamics: dynamics);
+      expect(result, expected);
+    });
+
+    test('should return list of strings even if some elements are already strings', () {
+      final dynamics = [1, 'hello', true, 'world', 2.5];
+      final expected = ['1', 'hello', 'true', 'world', '2.5'];
+      final result = Stringer.getStringsFromDynamics(dynamics: dynamics);
+      expect(result, expected);
+    });
+
+    test('should return list of strings from list of dynamics', () {
+      final dynamics = [1, 'hello', true, 2.5];
+      final expected = ['1', 'hello', 'true', '2.5'];
+      final result = Stringer.getStringsFromDynamics(dynamics: dynamics);
+      expect(result, expected);
+    });
+
+    test('should return empty list if input list is null', () {
+      const dynamics = null;
+      final expected = <String>[];
+      final result = Stringer.getStringsFromDynamics(dynamics: dynamics);
+      expect(result, expected);
+    });
+
+    test('should return list of strings even if some elements are already strings', () {
+      final dynamics = [1, 'hello', true, 'world', 2.5];
+      final expected = ['1', 'hello', 'true', 'world', '2.5'];
+      final result = Stringer.getStringsFromDynamics(dynamics: dynamics);
+      expect(result, expected);
+    });
+
+    test('should return empty list if input list is empty', () {
+      final dynamics = [];
+      final expected = <String>[];
+      final result = Stringer.getStringsFromDynamics(dynamics: dynamics);
+      expect(result, expected);
+    });
+
+    test('should return list of strings from list of nested dynamics', () {
+      final dynamics = [
+        1,
+        ['hello', true],
+        2.5,
+        {'name': 'John'}
+      ];
+      final expected = ['1', 'hello', 'true', '2.5', '{name: John}'];
+      final result = Stringer.getStringsFromDynamics(dynamics: dynamics);
+      expect(result, expected);
+    });
+
+  });
   // -----------------------------------------------------------------------------
 
   /// createTrigram
 
   // --------------------
-  ///
+  group('createTrigram', () {
+
+    test('returns empty list when input is null', () {
+      final result = Stringer.createTrigram(input: null);
+      expect(result, isEmpty);
+    });
+
+    test('removes spaces when removeSpaces is true', () {
+      final result = Stringer.createTrigram(input: 'Hello World', removeSpaces: true);
+      expect(result.every((e) => !e.contains(' ')), isTrue);
+    });
+
+    test('does not remove spaces when removeSpaces is false', () {
+      final result = Stringer.createTrigram(input: 'Hello World');
+      expect(result.any((e) => e.contains(' ')), isTrue);
+    });
+
+    test('returns trigrams in lowercase', () {
+      final result = Stringer.createTrigram(input: 'Hello World');
+      expect(result.every((e) => e == e.toLowerCase()), isTrue);
+    });
+
+    test('returns unique trigrams', () {
+      final result = Stringer.createTrigram(input: 'Hello World');
+      final Set<String> unique = Set.from(result);
+      expect(result.length, unique.length);
+    });
+  });
   // -----------------------------------------------------------------------------
 
   /// generateStringFromStrings
 
   // --------------------
-  ///
+  group('generateStringFromStrings', () {
+
+    test('generates a single string from a list of strings', () {
+      const List<String> strings = ['hello', 'world', 'how', 'are', 'you'];
+      // const String separator = ', ';
+      const String expectedOutput = 'hello, world, how, are, you';
+
+      expect(Stringer.generateStringFromStrings(strings: strings),
+          expectedOutput);
+    });
+
+    test('handles empty list input', () {
+      const List<String> strings = [];
+      // const String separator = ', ';
+
+      expect(
+          Stringer.generateStringFromStrings(strings: strings), null);
+    });
+
+    test('handles null input', () {
+      const List<String> strings = null;
+      // const String separator = ', ';
+
+      expect(
+          Stringer.generateStringFromStrings(strings: strings), null);
+    });
+
+    test('handles custom separator', () {
+      const List<String> strings = ['hello', 'world'];
+      const String separator = '-';
+      const String expectedOutput = 'hello-world';
+
+      expect(Stringer.generateStringFromStrings(strings: strings, stringsSeparator: separator),
+          expectedOutput);
+    });
+
+  });
   // -----------------------------------------------------------------------------
 
   /// getAddedStrings
 
   // --------------------
-  ///
+  group('getAddedStrings', () {
+
+    test('returns new strings that were added to the list', () {
+      final List<String> oldStrings = ['hello', 'world'];
+      final List<String> newStrings = ['hello', 'world', 'how', 'are', 'you'];
+      final List<String> expectedOutput = ['how', 'are', 'you'];
+
+      expect(
+          Stringer.getAddedStrings(oldStrings: oldStrings, newStrings: newStrings), expectedOutput);
+    });
+
+    test('handles empty input', () {
+      final List<String> oldStrings = [];
+      final List<String> newStrings = ['hello', 'world'];
+
+      expect(Stringer.getAddedStrings(oldStrings: oldStrings, newStrings: newStrings), newStrings);
+    });
+
+    test('handles null input', () {
+      const List<String> oldStrings = null;
+      final List<String> newStrings = ['hello', 'world'];
+
+      expect(Stringer.getAddedStrings(oldStrings: oldStrings, newStrings: newStrings), newStrings);
+    });
+
+    test('handles no new strings added', () {
+      final List<String> oldStrings = ['hello', 'world'];
+      final List<String> newStrings = ['hello', 'world'];
+
+      expect(Stringer.getAddedStrings(oldStrings: oldStrings, newStrings: newStrings), []);
+    });
+
+  });
   // -----------------------------------------------------------------------------
 
   /// getRemovedStrings
@@ -493,7 +804,7 @@ void main(){
   ///
   // -----------------------------------------------------------------------------
 
-  /// STRINGS ADDED AND REMOVED
+  /// MANUAL OLD TESTS : STRINGS ADDED AND REMOVED
 
   // --------------------
   const List<String> _oldList =        <String>['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
