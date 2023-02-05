@@ -12,7 +12,6 @@ class TextClipBoard {
   // --------------------
   /// TESTED : WORKS PERFECT
   static Future<void> copy({
-    @required BuildContext context,
     @required String copy,
   }) async {
 
