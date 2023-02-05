@@ -680,6 +680,13 @@ class TextMod {
   }
   // --------------------
   /// TESTED : WORKS PERFECT
+  static Future<void> controllerCopy(String value) async {
+    await TextClipBoard.copy(
+      copy: value,
+    );
+  }
+  // --------------------
+  /// TESTED : WORKS PERFECT
   static Future<void> controllerPaste(TextEditingController controller) async {
     controller.text = await TextClipBoard.paste();
   }
